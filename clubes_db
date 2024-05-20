@@ -1,1 +1,61 @@
 
+create database db_clubes;
+
+create table club (
+id_club int not null,
+id_socio int not null, 
+nombre varchar(30) not null,
+liga varchar (20) not null,
+ciudad varchar(20) not null,
+domicilio text(30) not null,
+altura int not null,
+pais text not null);
+
+alter table club drop column id_socio;
+
+
+create table socios (
+id_socio int not null primary key,
+nombre varchar(30) not null,
+apellido varchar(30) not null,
+edad int not null,
+telefono int not null,
+dni varchar(20) not null,
+email varchar(50));
+
+create table contable (
+id_empleados int not null,
+id_socio int not null,
+ingresos numeric,
+egresos numeric,
+merch numeric,
+venta_entradas numeric,
+venta_ind numeric,
+sueldos numeric,
+fecha_in date)
+
+create table empleados (
+id_empleados int not null primary key,
+nombre varchar(30) not null,
+apellido varchar(30) not null,
+edad int not null,
+fecha_in date)
+
+create table comercial (
+id_empleados int not null,
+cuota numeric,
+fecha_pago date,
+morosidad boolean,
+vitalicio boolean)
+
+create table mantenimiento (
+id_empleados int not null,
+actividad varchar(30),
+tipo_ctto boolean)
+
+create table deportistas (
+id_dep int not null primary key,
+id_socio int not null,
+disciplina varchar(20),
+fecha_in date,
+fin_ctto date)
