@@ -1,0 +1,34 @@
+-- Creacion de vista mostrando los paises desde donde hay socios ---
+create view vista_socios_internacionales as (select distinct pais from socios);
+
+-- Creacion de vista para mostrar los socios morosos por falta de pagos ---
+create view vista_socios_morosos as (SELECT COUNT(*) AS totales FROM comercial
+where morosidad =1); 
+
+-- Creacion de vista mostrando los socios y las cuotas que abonan cada uno ---
+create view socios_cuota as (select nombre, apellido, dni, cuota from socios s join comercial c on s.id_socio = c.id_socio);
+
+-- Funcion deterministica donde trae el valor de la cuota social, dependiendo si el socio es menor o mayor de edad
+select precio_cuota (5);
+select precio_cuota(34);
+
+-- SP basico que trae datos de ingresos y gastos de sueldos
+call sp_cashflow;
+
+-- SP de llamada para busqueda de socios vitalicios (1 vitalicio si)
+call socio_vitalicio (0);
+
+
+-- Creacion del trigger para seguimiento de nuevos socios--
+create trigger `audit_socios`
+after insert on `socios`
+for each row
+insert into `tabla_trig_socios` (id_socio, nombre, apellido, dni, edad, fecha_nac)
+values (new.id_socio, new.nombre, new.apellido, new.dni, new.edad, new.fecha_nac);
+
+-- Creacion de tabla para trigger --
+create table tabla_trig_socios (id_socio int primary key, nombre varchar(30), apellido varchar (30), dni int, edad int, fecha_nac datetime)
+
+-- insert de socio nuevo para visualizar en la tabla "tabla_trig_socios"--
+insert into socios (id_socio, nombre, apellido, dni, edad, fecha_nac) 
+values ('1010','Gustavo', 'Salese', '36555896', '36', '1986-09-26');
